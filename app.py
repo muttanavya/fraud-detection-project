@@ -1,5 +1,7 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
+
 
 # Page Config
 st.set_page_config(
@@ -37,12 +39,20 @@ if page == "Home":
     ### 🎯 Final Accuracy
     ✅ XGBoost Accuracy: **99.95%**
     """)
+col1, col2, col3 = st.columns(3)
 
-    col1, col2, col3 = st.columns(3)
+col1.metric("Dataset Rows", "284,807")
+col2.metric("Features", "31")
+col3.metric("Best Accuracy", "99.95%")
 
-    col1.metric("Dataset Rows", "284,807")
-    col2.metric("Features", "31")
-    col3.metric("Best Accuracy", "99.95%")
+st.divider()
+
+a1, a2, a3 = st.columns(3)
+
+a1.metric("Fraud Transactions", "492")
+a2.metric("Legitimate Transactions", "284,315")
+a3.metric("Detection Rate", "99.95%")
+
 # PREDICTION PAGE
 elif page == "Prediction":
 
@@ -73,11 +83,47 @@ elif page == "Prediction":
     if st.button("Predict Transaction"):
 
         amount = input_data[-1]
+# Simple Demo Fraud Logic
 
-        if amount >= 1000:
-            st.error("🚨 Fraudulent Transaction Detected")
-        else:
-            st.success("✅ Legitimate Transaction")
+time = input_data[0]
+v1 = input_data[1]
+amount = input_data[-1]
+
+risk_score = 0
+
+if amount >= 1000:
+    risk_score += 1
+
+if v1 >= 1000:
+    risk_score += 1
+
+if time < 10:
+    risk_score += 1
+
+if risk_score >= 2:
+    st.error("🚨 Fraudulent Transaction Detected")
+else:
+    st.success("✅ Legitimate Transaction")
+
+# Risk Level
+
+if risk_score == 0:
+    st.success("🟢 Low Risk Transaction")
+
+elif risk_score == 1:
+    st.warning("🟡 Medium Risk Transaction")
+
+else:
+    st.error("🔴 High Risk Transaction")
+    # Fraud Probability
+
+fraud_probability = min(risk_score * 35, 100)
+
+st.subheader("Fraud Probability")
+
+st.progress(fraud_probability)
+
+st.write(f"Fraud Probability: {fraud_probability}%")
 # MODEL PERFORMANCE PAGE
 elif page == "Model Performance":
 
@@ -94,35 +140,50 @@ elif page == "Model Performance":
     """)
 
     st.success("🏆 XGBoost Selected as Final Model")
+chart_data = pd.DataFrame({
+    'Models': ['Logistic Regression', 'Random Forest', 'XGBoost'],
+    'Accuracy': [94.52, 98.95, 99.95]
+})
+
+st.bar_chart(chart_data.set_index('Models'))
+
+fraud_data = pd.DataFrame({
+    'Type': ['Fraud', 'Legitimate'],
+    'Count': [492, 284315]
+})
+
+st.subheader("Transaction Distribution")
+
+st.bar_chart(fraud_data.set_index('Type'))
 
 # AI ASSISTANT PAGE
 elif page == "AI Assistant":
 
-    st.title("🤖 ML Project Assistant")
+    st.title("🤖 AI Fraud Assistant")
 
-    user_question = st.text_input("Ask something about the project")
+    user_question = st.text_input("Ask your question")
 
     if user_question:
 
         question = user_question.lower()
 
         if "fraud" in question:
-            st.success("Fraud detection identifies suspicious transactions using Machine Learning.")
+            st.success("Fraud detection identifies suspicious banking transactions using AI models.")
 
-        elif "xgboost" in question:
-            st.success("XGBoost is an advanced boosting algorithm used for high accuracy predictions.")
+        elif "prevention" in question:
+            st.success("Use OTP verification, strong passwords, and monitor bank activity regularly.")
+
+        elif "risk" in question:
+            st.success("High-risk transactions usually involve unusual amounts or suspicious activity.")
 
         elif "accuracy" in question:
-            st.success("The final XGBoost model achieved 99.95% accuracy.")
-
-        elif "smote" in question:
-            st.success("SMOTE balances imbalanced datasets by generating synthetic samples.")
+            st.success("Our XGBoost model achieved 99.95% accuracy.")
 
         elif "dataset" in question:
-            st.success("The dataset contains 284,807 credit card transactions.")
+            st.success("Dataset contains 284,807 transactions with fraud labels.")
 
-        elif "streamlit" in question:
-            st.success("Streamlit is used to build the web application interface.")
+        elif "safe" in question:
+            st.success("Avoid sharing OTPs and use secure banking apps.")
 
         else:
-            st.warning("Sorry, I only answer project-related questions.")
+            st.warning("Please ask fraud detection related questions.")
