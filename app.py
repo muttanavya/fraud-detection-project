@@ -65,17 +65,27 @@ elif page == "Prediction":
     for i, feature in enumerate(feature_names):
         value = cols[i % 3].number_input(feature, value=0.0)
         input_data.append(value)
+if st.button("Predict Transaction"):
 
-    if st.button("Predict Transaction"):
+    amount = float(input_data[-1])
 
-        amount = input_data[-1]
+    st.write("Entered Amount:", amount)
 
-        # Temporary Demo Prediction
-        if amount > 1000:
-            st.error("🚨 Fraudulent Transaction Detected")
-        else:
-            st.success("✅ Legitimate Transaction")
+    if amount >= 1000:
+        st.error("🚨 Fraudulent Transaction Detected")
+    else:
+        st.success("✅ Legitimate Transaction")
 
+if st.button("Predict Transaction"):
+
+    amount = float(input_data[-1])
+
+    st.write("Entered Amount:", amount)
+
+    if amount >= 1000:
+        st.error("🚨 Fraudulent Transaction Detected")
+    else:
+        st.success("✅ Legitimate Transaction")
 # MODEL PERFORMANCE PAGE
 elif page == "Model Performance":
 
