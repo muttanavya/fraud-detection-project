@@ -1,7 +1,5 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
-
 
 # Page Config
 st.set_page_config(
@@ -17,6 +15,7 @@ page = st.sidebar.radio(
     "Navigation",
     ["Home", "Prediction", "Model Performance", "AI Assistant"]
 )
+
 # HOME PAGE
 if page == "Home":
 
@@ -25,18 +24,17 @@ if page == "Home":
     st.markdown("""
     ### 📌 Project Overview
 
-    This machine learning project detects fraudulent credit card transactions using advanced ML algorithms.
+    This machine learning project detects fraudulent credit card transactions using AI techniques.
 
     ### 🚀 Technologies Used
     - Python
-    - Scikit-learn
-    - XGBoost
     - Streamlit
     - Pandas
     - NumPy
+    - XGBoost
 
     ### 🎯 Final Accuracy
-    ✅ XGBoost Accuracy: **99.95%**
+    ✅ XGBoost Accuracy: 99.95%
     """)
 
     col1, col2, col3 = st.columns(3)
@@ -52,7 +50,7 @@ if page == "Home":
     a1.metric("Fraud Transactions", "492")
     a2.metric("Legitimate Transactions", "284,315")
     a3.metric("Detection Rate", "99.95%")
-    
+
 # PREDICTION PAGE
 elif page == "Prediction":
 
@@ -72,10 +70,7 @@ elif page == "Prediction":
     input_data = []
 
     for i, feature in enumerate(feature_names):
-        value = cols[i % 3].number_input(
-            feature,
-            value=0.0
-        )
+        value = cols[i % 3].number_input(feature, value=0.0)
         input_data.append(value)
 
     if st.button("Predict Transaction"):
@@ -95,6 +90,7 @@ elif page == "Prediction":
         if time < 10:
             risk_score += 1
 
+        # Prediction Result
         if risk_score >= 2:
             st.error("🚨 Fraudulent Transaction Detected")
             st.toast("🚨 Fraud Alert Notification!")
@@ -119,7 +115,7 @@ elif page == "Prediction":
         st.progress(fraud_probability)
 
         st.write(f"Fraud Probability: {fraud_probability}%")
-        
+
 # MODEL PERFORMANCE PAGE
 elif page == "Model Performance":
 
@@ -127,30 +123,23 @@ elif page == "Model Performance":
 
     st.subheader("Accuracy Comparison")
 
-    st.write("""
-    | Model | Accuracy |
-    |-------|-----------|
-    | Logistic Regression | 94.52% |
-    | Random Forest | 98.95% |
-    | XGBoost | 99.95% |
-    """)
+    chart_data = pd.DataFrame({
+        'Models': ['Logistic Regression', 'Random Forest', 'XGBoost'],
+        'Accuracy': [94.52, 98.95, 99.95]
+    })
+
+    st.bar_chart(chart_data.set_index('Models'))
+
+    fraud_data = pd.DataFrame({
+        'Type': ['Fraud', 'Legitimate'],
+        'Count': [492, 284315]
+    })
+
+    st.subheader("Transaction Distribution")
+
+    st.bar_chart(fraud_data.set_index('Type'))
 
     st.success("🏆 XGBoost Selected as Final Model")
-chart_data = pd.DataFrame({
-    'Models': ['Logistic Regression', 'Random Forest', 'XGBoost'],
-    'Accuracy': [94.52, 98.95, 99.95]
-})
-
-st.bar_chart(chart_data.set_index('Models'))
-
-fraud_data = pd.DataFrame({
-    'Type': ['Fraud', 'Legitimate'],
-    'Count': [492, 284315]
-})
-
-st.subheader("Transaction Distribution")
-
-st.bar_chart(fraud_data.set_index('Type'))
 
 # AI ASSISTANT PAGE
 elif page == "AI Assistant":
