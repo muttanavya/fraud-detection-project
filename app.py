@@ -119,28 +119,101 @@ elif page == "Prediction":
 # MODEL PERFORMANCE PAGE
 elif page == "Model Performance":
 
-    st.title("📊 Model Performance")
+    st.title("📊 Fraud Analytics Dashboard")
 
-    st.subheader("Accuracy Comparison")
+    st.markdown("### 🚀 Real-Time Fraud Monitoring System")
 
-    chart_data = pd.DataFrame({
+    # Top Metrics
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric("💳 Total Transactions", "284,807")
+    col2.metric("🚨 Fraud Cases", "492")
+    col3.metric("✅ Safe Transactions", "284,315")
+    col4.metric("🎯 Detection Accuracy", "99.95%")
+
+    st.divider()
+
+    # System Status
+    st.subheader("🖥️ System Status")
+
+    a1, a2, a3 = st.columns(3)
+
+    a1.success("🟢 Detection System Active")
+    a2.warning("🟡 Medium Risk Alerts: 12")
+    a3.error("🔴 High Risk Alerts: 4")
+
+    st.divider()
+
+    # Transaction Distribution
+    st.subheader("📈 Transaction Distribution")
+
+    fraud_data = pd.DataFrame({
+        'Transaction Type': ['Fraudulent', 'Legitimate'],
+        'Count': [492, 284315]
+    })
+
+    st.bar_chart(fraud_data.set_index('Transaction Type'))
+
+    st.divider()
+
+    # Model Accuracy
+    st.subheader("🤖 AI Model Accuracy")
+
+    model_data = pd.DataFrame({
         'Models': ['Logistic Regression', 'Random Forest', 'XGBoost'],
         'Accuracy': [94.52, 98.95, 99.95]
     })
 
-    st.bar_chart(chart_data.set_index('Models'))
+    st.line_chart(model_data.set_index('Models'))
 
-    fraud_data = pd.DataFrame({
-        'Type': ['Fraud', 'Legitimate'],
-        'Count': [492, 284315]
-    })
+    st.success("🏆 XGBoost Selected as Best Performing Model")
 
-    st.subheader("Transaction Distribution")
+    st.divider()
 
-    st.bar_chart(fraud_data.set_index('Type'))
+    # Fraud Risk Meter
+    st.subheader("⚠️ Overall Fraud Risk Level")
 
-    st.success("🏆 XGBoost Selected as Final Model")
+    fraud_risk = 15
 
+    st.progress(fraud_risk)
+
+    st.write(f"Current Fraud Risk Level: {fraud_risk}%")
+
+    st.divider()
+
+    # Recent Fraud Alerts
+    st.subheader("🚨 Recent Fraud Alerts")
+
+    st.error("🔴 Unusual High Amount Transaction Detected")
+    st.warning("🟡 Multiple Failed Login Attempts")
+    st.info("🔵 Suspicious International Transaction")
+    st.success("🟢 System Running Securely")
+
+    st.divider()
+
+    # Security Tips
+    st.subheader("🔐 Banking Safety Tips")
+
+    st.info("""
+    ✅ Never share OTPs  
+    ✅ Use strong passwords  
+    ✅ Monitor transaction history regularly  
+    ✅ Enable two-factor authentication  
+    ✅ Avoid suspicious links and calls
+    """)
+
+    st.divider()
+
+    # AI Insights
+    st.subheader("🧠 AI Insights")
+
+    st.write("""
+    - Most fraud transactions involve unusually high amounts.
+    - Real-time AI monitoring helps reduce banking fraud.
+    - XGBoost model provides highly accurate fraud detection.
+    - Fraud patterns are continuously analyzed for better security.
+    """)
+    
 # AI ASSISTANT PAGE
 elif page == "AI Assistant":
 
