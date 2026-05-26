@@ -43,15 +43,12 @@ if page == "Home":
     col1.metric("Dataset Rows", "284,807")
     col2.metric("Features", "31")
     col3.metric("Best Accuracy", "99.95%")
-
 # PREDICTION PAGE
 elif page == "Prediction":
 
     st.title("🔍 Fraud Prediction")
 
     st.write("Enter transaction details below:")
-
-    input_data = []
 
     cols = st.columns(3)
 
@@ -62,30 +59,25 @@ elif page == "Prediction":
         'V26','V27','V28','Amount'
     ]
 
+    input_data = []
+
     for i, feature in enumerate(feature_names):
-        value = cols[i % 3].number_input(feature, value=0.0)
+        value = cols[i % 3].number_input(
+            feature,
+            min_value=0.0,
+            value=0.0,
+            step=1.0
+        )
         input_data.append(value)
-if st.button("Predict Transaction"):
 
-    amount = float(input_data[-1])
+    if st.button("Predict Transaction"):
 
-    st.write("Entered Amount:", amount)
+        amount = input_data[-1]
 
-    if amount >= 1000:
-        st.error("🚨 Fraudulent Transaction Detected")
-    else:
-        st.success("✅ Legitimate Transaction")
-
-if st.button("Predict Transaction"):
-
-    amount = float(input_data[-1])
-
-    st.write("Entered Amount:", amount)
-
-    if amount >= 1000:
-        st.error("🚨 Fraudulent Transaction Detected")
-    else:
-        st.success("✅ Legitimate Transaction")
+        if amount >= 1000:
+            st.error("🚨 Fraudulent Transaction Detected")
+        else:
+            st.success("✅ Legitimate Transaction")
 # MODEL PERFORMANCE PAGE
 elif page == "Model Performance":
 
