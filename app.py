@@ -74,56 +74,52 @@ elif page == "Prediction":
     for i, feature in enumerate(feature_names):
         value = cols[i % 3].number_input(
             feature,
-            min_value=0.0,
-            value=0.0,
-            step=1.0
+            value=0.0
         )
         input_data.append(value)
 
     if st.button("Predict Transaction"):
 
+        time = input_data[0]
+        v1 = input_data[1]
         amount = input_data[-1]
-# Simple Demo Fraud Logic
 
-time = input_data[0]
-v1 = input_data[1]
-amount = input_data[-1]
+        risk_score = 0
 
-risk_score = 0
+        if amount >= 1000:
+            risk_score += 1
 
-if amount >= 1000:
-    risk_score += 1
+        if v1 >= 1000:
+            risk_score += 1
 
-if v1 >= 1000:
-    risk_score += 1
+        if time < 10:
+            risk_score += 1
 
-if time < 10:
-    risk_score += 1
+        if risk_score >= 2:
+            st.error("🚨 Fraudulent Transaction Detected")
+            st.toast("🚨 Fraud Alert Notification!")
+        else:
+            st.success("✅ Legitimate Transaction")
 
-if risk_score >= 2:
-    st.error("🚨 Fraudulent Transaction Detected")
-else:
-    st.success("✅ Legitimate Transaction")
+        # Risk Level
+        if risk_score == 0:
+            st.success("🟢 Low Risk Transaction")
 
-# Risk Level
+        elif risk_score == 1:
+            st.warning("🟡 Medium Risk Transaction")
 
-if risk_score == 0:
-    st.success("🟢 Low Risk Transaction")
+        else:
+            st.error("🔴 High Risk Transaction")
 
-elif risk_score == 1:
-    st.warning("🟡 Medium Risk Transaction")
+        # Fraud Probability
+        fraud_probability = min(risk_score * 35, 100)
 
-else:
-    st.error("🔴 High Risk Transaction")
-    # Fraud Probability
+        st.subheader("Fraud Probability")
 
-fraud_probability = min(risk_score * 35, 100)
+        st.progress(fraud_probability)
 
-st.subheader("Fraud Probability")
-
-st.progress(fraud_probability)
-
-st.write(f"Fraud Probability: {fraud_probability}%")
+        st.write(f"Fraud Probability: {fraud_probability}%")
+        
 # MODEL PERFORMANCE PAGE
 elif page == "Model Performance":
 
