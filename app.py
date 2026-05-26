@@ -1,10 +1,6 @@
 import streamlit as st
-import joblib
 import numpy as np
 
-# Load model and scaler
-model = joblib.load('models/model.pkl')
-scaler = joblib.load('models/scaler.pkl')
 
 # Page Config
 st.set_page_config(
