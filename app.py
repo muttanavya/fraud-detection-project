@@ -17,7 +17,6 @@ page = st.sidebar.radio(
     "Navigation",
     ["Home", "Prediction", "Model Performance", "AI Assistant"]
 )
-
 # HOME PAGE
 if page == "Home":
 
@@ -39,20 +38,21 @@ if page == "Home":
     ### 🎯 Final Accuracy
     ✅ XGBoost Accuracy: **99.95%**
     """)
-col1, col2, col3 = st.columns(3)
 
-col1.metric("Dataset Rows", "284,807")
-col2.metric("Features", "31")
-col3.metric("Best Accuracy", "99.95%")
+    col1, col2, col3 = st.columns(3)
 
-st.divider()
+    col1.metric("Dataset Rows", "284,807")
+    col2.metric("Features", "31")
+    col3.metric("Best Accuracy", "99.95%")
 
-a1, a2, a3 = st.columns(3)
+    st.divider()
 
-a1.metric("Fraud Transactions", "492")
-a2.metric("Legitimate Transactions", "284,315")
-a3.metric("Detection Rate", "99.95%")
+    a1, a2, a3 = st.columns(3)
 
+    a1.metric("Fraud Transactions", "492")
+    a2.metric("Legitimate Transactions", "284,315")
+    a3.metric("Detection Rate", "99.95%")
+    
 # PREDICTION PAGE
 elif page == "Prediction":
 
